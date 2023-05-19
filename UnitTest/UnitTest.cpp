@@ -18,6 +18,7 @@ Tester::Tester(std::function<bool(void)> test_function) : test_function(test_fun
 
 void UnitTest::run(bool abort_at_error, std::function<void(char)> write_function){
     uint16_t error_counter = 0;
+    uint16_t error_totalizer = 0;
     UnitTest::write_function = write_function;
     UnitTest::log("[!] Running tests...\r\n\r\n");
     for (Tester* iterator = UnitTest::first ; iterator != nullptr ; iterator = iterator->next){
@@ -29,10 +30,18 @@ void UnitTest::run(bool abort_at_error, std::function<void(char)> write_function
             }
         }
         if (error_counter == 0){
-            UnitTest::log("\r\n[v] All tests passed!");
+            UnitTest::log("[v] This test was passed!\r\n\r\n");
         } else {
-            UnitTest::log("\r\n[x] All tests were run and %d error%c were found.", error_counter, error_counter > 1 ? 's' : 0);
+            UnitTest::log("[x] This test was run and %d error%c %s found.\r\n\r\n", error_counter, error_counter > 1 ? 's' : 0, error_counter > 1 ? "were" : "was");
         }
+        error_totalizer += error_counter;
+        error_counter = 0;
+    }
+
+    if (error_totalizer == 0){
+        UnitTest::log("[v] All tests were passed!\r\n\r\n");
+    } else {
+        UnitTest::log("[x] All tests were run and %d error%c %s found.\r\n", error_totalizer, error_totalizer > 1 ? 's' : 0, error_totalizer > 1 ? "were" : "was");
     }
 }
 
