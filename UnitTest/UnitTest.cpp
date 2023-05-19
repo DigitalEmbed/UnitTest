@@ -1,5 +1,6 @@
 #include "./UnitTest.h"
 #include <stdarg.h>
+#include <stdint.h>
 
 Tester* UnitTest::first = nullptr;
 Tester* UnitTest::last = nullptr;
@@ -16,14 +17,22 @@ Tester::Tester(std::function<bool(void)> test_function) : test_function(test_fun
 }
 
 void UnitTest::run(bool abort_at_error, std::function<void(char)> write_function){
+    uint16_t error_counter = 0;
     UnitTest::write_function = write_function;
     UnitTest::log("[!] Running tests...\r\n\r\n");
     for (Tester* iterator = UnitTest::first ; iterator != nullptr ; iterator = iterator->next){
-        if (iterator->test_function() == false && abort_at_error == true){
-            UnitTest::log("\r\n[x] Failed test... Fix it to proceed.\r\n");
-            break;
+        if (iterator->test_function() == false){
+            error_counter++;
+            if (abort_at_error == true){
+                UnitTest::log("\r\n[x] Failed test... Fix it to proceed.\r\n");
+                break;
+            }
         }
-        UnitTest::log("\r\n[v] All tests passed!");
+        if (error_counter == 0){
+            UnitTest::log("\r\n[v] All tests passed!");
+        } else {
+            UnitTest::log("\r\n[x] All tests were run and %d error%c were found.", error_counter, error_counter > 1 ? 's' : 0);
+        }
     }
 }
 

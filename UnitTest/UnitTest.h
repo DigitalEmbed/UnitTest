@@ -13,6 +13,10 @@
 #define UNIT_TEST_ASSERT(expression) UnitTest::log("%d: Checking expression '" #expression "'... ", __LINE__); if((expression) == false) { UnitTest::log("Error!\r\n"); return false; } UnitTest::log("Ok!\r\n")
 #define UNIT_TEST_COMPARE(value1, value2) UnitTest::log("%d: Checking if values '" #value1 "' and '" #value2 "' are equal... " , __LINE__); if((value1) != (value2)) { UnitTest::log("Error!\r\n"); return false; } UnitTest::log("Ok!\r\n")
 
+#define USING_UNIT_TEST public: static bool unitTest(void); private:
+#define UNIT_TEST_CLASS_BEGIN(class_name) bool class_name::unitTest(void){
+#define UNIT_TEST_CLASS_END return true;} UNIT_TEST_BEGIN{return AnyClass::unitTest();}UNIT_TEST_END
+
 class Tester;
 
 class UnitTest{
