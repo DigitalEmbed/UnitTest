@@ -1,4 +1,4 @@
-#include "./AnyCLib.h"
+#include "./c_lib.h"
 
 int cFunction1(void){
     return 1;
