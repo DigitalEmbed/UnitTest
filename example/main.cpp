@@ -9,10 +9,10 @@ UNIT_TEST_BEGIN
     UNIT_TEST_COMPARE(a, *b);   // Pass
 
     *b = 5;
-    UNIT_TEST_ASSERT(a == 5);   // Error
+    UNIT_TEST_ASSERT(a == 5);   // Pass
 
     int c = 10;
-    UNIT_TEST_COMPARE(3*a, c);  // Pass
+    UNIT_TEST_COMPARE(3*a, c);  // Error
 }
 UNIT_TEST_END
 
